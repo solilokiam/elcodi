@@ -356,7 +356,7 @@ class MachineBuilder
                 continue;
             }
 
-            if (empty($this->transitionChain->getTransitionsByFinalState($initialStateName))) {
+            if (!$this->transitionChain->getTransitionsByFinalState($initialStateName)) {
 
                 throw new StateNotValidException($initialStateName);
             }
