@@ -170,24 +170,25 @@ class MachineBuilder
         foreach ($configuration as $transitionConfiguration) {
 
             if (
-                !is_array($transitionConfiguration) ||
-                (count($transitionConfiguration) != 3) ||
-                !isset($transitionConfiguration[0]) ||
-                !is_string($transitionConfiguration[0]) ||
-                empty($transitionConfiguration[0]) ||
-                !isset($transitionConfiguration[1]) ||
-                !is_string($transitionConfiguration[1]) ||
-                empty($transitionConfiguration[1]) ||
-                !isset($transitionConfiguration[2]) ||
-                !is_string($transitionConfiguration[2]) ||
-                empty($transitionConfiguration[2])
+                is_array($transitionConfiguration) &&
+                (count($transitionConfiguration) === 3) &&
+                isset($transitionConfiguration[0]) &&
+                is_string($transitionConfiguration[0]) &&
+                $transitionConfiguration[0] &&
+                isset($transitionConfiguration[1]) &&
+                is_string($transitionConfiguration[1]) &&
+                $transitionConfiguration[1] &&
+                isset($transitionConfiguration[2]) &&
+                is_string($transitionConfiguration[2]) &&
+                $transitionConfiguration[2]
             ) {
 
-                throw new TransitionNotValidException();
+                return $this;
+
             }
         }
 
-        return $this;
+        throw new TransitionNotValidException();
     }
 
     /**
