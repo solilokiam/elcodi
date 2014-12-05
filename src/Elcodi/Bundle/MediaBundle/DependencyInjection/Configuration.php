@@ -92,7 +92,6 @@ class Configuration extends AbstractConfiguration implements ConfigurationInterf
                         ->arrayNode('resize')
                             ->addDefaultsIfNotSet()
                             ->children()
-
                                 /**
                                  * This elements should be defined as an enumValue
                                  *
@@ -113,6 +112,17 @@ class Configuration extends AbstractConfiguration implements ConfigurationInterf
                                 ->end()
                                 ->scalarNode('converter_default_profile')
                                     ->defaultValue('/usr/share/color/icc/colord/sRGB.icc')
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('validImageSizes')
+                            ->isRequired()
+                            ->requiresAtLeastOneElement()
+                            ->useAttributeAsKey('name')
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('width')->isRequired()->end()
+                                    ->scalarNode('height')->isRequired()->end()
                                 ->end()
                             ->end()
                         ->end()

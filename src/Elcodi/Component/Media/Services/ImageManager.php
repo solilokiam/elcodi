@@ -16,6 +16,7 @@
 
 namespace Elcodi\Component\Media\Services;
 
+use Elcodi\Component\Media\Exception\InvalidImageSizeException;
 use Symfony\Component\HttpFoundation\File\File;
 
 use Elcodi\Component\Media\Adapter\Resizer\Interfaces\ResizeAdapterInterface;
@@ -58,6 +59,11 @@ class ImageManager
     protected $resizeAdapter;
 
     /**
+     * @var Array
+     */
+    protected $validSizes;
+
+    /**
      * Construct method
      *
      * @param ImageFactory           $imageFactory  Image Factory
@@ -67,12 +73,14 @@ class ImageManager
     public function __construct(
         ImageFactory $imageFactory,
         FileManager $fileManager,
-        ResizeAdapterInterface $resizeAdapter
+        ResizeAdapterInterface $resizeAdapter,
+        $validSizes
     )
     {
         $this->imageFactory = $imageFactory;
         $this->fileManager = $fileManager;
         $this->resizeAdapter = $resizeAdapter;
+        $this->validSizes = $validSizes;
     }
 
     /**
@@ -131,6 +139,8 @@ class ImageManager
         $type = ElcodiMediaImageResizeTypes::FORCE_MEASURES
     )
     {
+        $this->checkValidSize($height, $width);
+
         $imageData = $this
             ->fileManager
             ->downloadFile($image)
@@ -162,5 +172,25 @@ class ImageManager
         unlink($resizedFile);
 
         return $image;
+    }
+
+    /**
+     * @param $height
+     * @param $width
+     * @throws \Exception
+     */
+    protected function checkValidSize($height, $width)
+    {
+        $found = false;
+        foreach ($this->validSizes as $validSize) {
+            if ($validSize['width'] == $width && $validSize['height'] == $height) {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            throw new InvalidImageSizeException();
+        }
     }
 }

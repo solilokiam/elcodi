@@ -9,6 +9,7 @@ services:
             image_factory: @elcodi.core.media.factory.image
             file_manager: @elcodi.core.media.service.file_manager
             resize_adapter: @elcodi.core.media.resize.default
+            valid_sizes: %elcodi.core.media.valid_image_sizes%
 
     elcodi.image_manager:
         alias: elcodi.core.media.service.image_manager

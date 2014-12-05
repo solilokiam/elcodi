@@ -125,6 +125,7 @@ class ElcodiMediaExtension extends AbstractExtension implements EntitiesOverrida
             'elcodi.core.media.image_resize_controller_route'          => $config['images']['resize']['controller_route'],
             'elcodi.core.media.image_resize_converter_bin_path'        => $config['images']['resize']['converter_bin_path'],
             'elcodi.core.media.image_resize_converter_default_profile' => $config['images']['resize']['converter_default_profile'],
+            'elcodi.core.media.valid_image_sizes'                      => $config['images']['validImageSizes']
         ];
     }
 
